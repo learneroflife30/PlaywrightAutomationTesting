@@ -1,6 +1,6 @@
 const { test, expect } = require("@playwright/test");
 
-test.only("browser context playwright test", async ({ browser }) => {
+test("browser context playwright test", async ({ browser }) => {
   // with preinjected cookies / plugins
   const context = await browser.newContext();
   const page = await context.newPage();
@@ -10,6 +10,8 @@ test.only("browser context playwright test", async ({ browser }) => {
   const password = page.locator("[name*='pass']");
   const signin = page.locator("#signInBtn");
   const productname = page.locator("div.card-body a");
+  const checkmark = page.locator(".checkmark");
+  const terms = page.locator("#terms");
 
   await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
   console.log(await page.title());
@@ -18,10 +20,18 @@ test.only("browser context playwright test", async ({ browser }) => {
   // css
   await username.fill("Divyanshu");
   await password.fill("learning");
-  await page.locator(".checkmark").last().click();
+  await checkmark.last().check();
+  expect(await checkmark.last().isChecked());
   console.log(await page.locator(".modal-body").textContent());
   await page.locator("button#okayBtn").click();
-  await page.locator("#terms").click();
+  const person = page.locator("select.form-control");
+  await person.selectOption("consult");
+  await person.selectOption("stud");
+  await person.selectOption("teach");
+  await terms.check();
+  expect(await terms.isChecked()).toBeTruthy();
+  await terms.uncheck();
+  expect(await terms.isChecked()).toBeFalsy();
   await signin.click();
   console.log(await page.locator("[style*='block']").textContent());
   await username.clear();
@@ -34,8 +44,32 @@ test.only("browser context playwright test", async ({ browser }) => {
   console.log(await productname.last().textContent());
 });
 
-test("page playwright test", async ({ page }) => {
-  await page.goto("https://google.com");
+test.only("multiple tests ", async ({ browser }) => {
+  const context = await browser.newContext();
+  const page = await context.newPage();
+  await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+  // switching to new page/tab using promise concept
+  const [newPage] = await Promise.all([
+    context.waitForEvent("page"),
+    await page.locator("a.blinkingText").click(),
+  ]);
+
+  console.log(await newPage.locator("p.im-para.red").textContent());
+
+  // taking text from  new page and saving it and then printing it to another page
+  const email = await newPage.locator("p.im-para.red").textContent();
+
+  const splitemail = email.split("@");
+
+  const splittwoemail = splitemail[1];
+  console.log(splittwoemail);
+
+  const domain = splittwoemail.split(" ")[0];
+  console.log(domain);
+
+  // switch context back to previous page
+  console.log(page.url());
+  await page.locator("input#username").fill(domain);
+  console.log(await page.locator("input#username").textContent());
   console.log(await page.title());
-  await expect(page).toHaveTitle("Google");
 });

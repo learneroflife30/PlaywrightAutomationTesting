@@ -1,0 +1,46 @@
+Playwright Notes
+
+Playwright uses two selectors, CSS and Xpath to locate elements and we predominately use CSS selector in playwright.
+
+if id is present 
+css -> tagname#id (or) #id
+
+if class attribute is present
+css -> tagname.class (or) .class
+
+write css based on any attribute
+css -> [attribute = 'value']
+
+using regular expression
+
+css -> [attribute* = 'partial value'] note - using star with attribute.
+
+write css with traversing from parent to child
+css - > parenttagname >> childtagname
+
+----
+
+await is required when we are performing any action since javascript is asynchoronous.
+eg - await terms.check();
+
+----
+
+***---important---***
+in case of action being performed inside the bracket then we use await inside.
+eg - expect(await terms.isChecked()).toBeTruthy();
+
+----
+
+how to know if await is needed is when test case fails with empty array, like this -> {}
+
+
+waitfor() method is helpful in loading page ( dom ) content to fetch values to ensure empty array in not comming.
+
+eg -   
+
+await productname.last().waitFor(); // to ensure all elements are returned in array
+console.log(await productname.allTextContents());
+
+
+
+

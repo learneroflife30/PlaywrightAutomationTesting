@@ -38,13 +38,13 @@ test("browser context playwright test", async ({ browser }) => {
   await username.fill("rahulshettyacademy");
   await signin.click();
   console.log(page.url());
-  await productname.last().waitFor(); // to ensure all elements are returned in array
+  await productname.last().waitFor(); // to ensure all elements are returned in array and waiting for loading of just last element
   console.log(await productname.allTextContents());
   console.log(await productname.nth(0).textContent());
   console.log(await productname.last().textContent());
 });
 
-test.only("multiple tests ", async ({ browser }) => {
+test("multiple tests ", async ({ browser }) => {
   const context = await browser.newContext();
   const page = await context.newPage();
   await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
@@ -70,6 +70,6 @@ test.only("multiple tests ", async ({ browser }) => {
   // switch context back to previous page
   console.log(page.url());
   await page.locator("input#username").fill(domain);
-  console.log(await page.locator("input#username").textContent());
+  console.log(await page.locator("input#username").inputValue());
   console.log(await page.title());
 });

@@ -34,13 +34,42 @@ eg - expect(await terms.isChecked()).toBeTruthy();
 how to know if await is needed is when test case fails with empty array, like this -> {}
 
 
-waitfor() method is helpful in loading page ( dom ) content to fetch values to ensure empty array in not comming.
+waitfor() method is helpful in loading page ( dom ) content to fetch values to ensure empty array in not comming. 
 
 eg -   
 
-await productname.last().waitFor(); // to ensure all elements are returned in array
+await productname.last().waitFor(); // to ensure all elements are returned in array, but waiting for loading of last element.
 console.log(await productname.allTextContents());
 
+----
 
+command to run any test in playwright test runner
+npx playwright test --ui
+
+--- 
+
+playwright special locators 
+
+https://playwright.dev/docs/locators
+
+script -
+https://www.udemy.com/course/playwright-tutorials-automation-testing/learn/lecture/39602700#questions/20788198
+
+    await page.goto("https://rahulshettyacademy.com/angularpractice/");
+    await page.getByLabel("Check me out if you Love IceCreams!").click();
+    await page.getByLabel("Employed").check();
+    await page.getByLabel("Gender").selectOption("Female");
+    await page.getByPlaceholder("Password").fill("abc123");
+    await page.getByRole("button", {name: 'Submit'}).click();
+    await page.getByText("Success! The Form has been submitted successfully!.").isVisible();
+    await page.getByRole("link",{name : "Shop"}).click();
+    await page.locator("app-card").filter({hasText: 'Nokia Edge'}).getByRole("button").click();
+
+--- 
+
+
+autowaiting for some methods which are inbuilt in playwright
+
+https://playwright.dev/docs/actionability
 
 

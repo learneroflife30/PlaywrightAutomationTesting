@@ -72,4 +72,5 @@ autowaiting for some methods which are inbuilt in playwright
 
 https://playwright.dev/docs/actionability
 
+slow type method - https://playwright.dev/docs/input#type-characters
 
